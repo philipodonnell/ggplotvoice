@@ -25,19 +25,26 @@ Much of the difficulty in making others comfortable with data is the barrier of 
 
 To implement this in base graphics or by writing application code would have requires a startup's worth of effort until the appearence of the closest thing we have to a spoken graphics language, [ggplot2](http://ggplot2.org/).
 
-[ggplot2](http://ggplot2.org/) is based on the concept of a 'grammar of graphics' or the idea that it is possible to describe all of the parameters needed to create visualization in a semi-abstract topical grammar and have the specifics of the graph determined based on the interpretion/translation of the speech. The cumulative nature of the way it builds charts maps perfectly to the progressive nature of speech. The http://ggplot2.org/) is based on the concept of a 'grammar of graphics' or the idea that it is possible to describe all of the parameters needed to create visualization in a semi-abstract topical grammar and have the specifics of the graph determined based on the interpretion/translation of the speech. The cumulative nature of the way it builds charts maps perfectly to the progressive nature of speech. The `geom_`-style layers map well to how we would discuss a chart by speaking, and the way the `group` and `color` parameters are easy to speak to, beyond just what is on the x and y axis. 
+[ggplot2](http://ggplot2.org/) is based on the concept of a 'grammar of graphics' or the idea that it is possible to describe all of the parameters needed to create visualization in a semi-abstract topical grammar and have the specifics of the graph determined based on the interpretion/translation of the speech. The cumulative nature of the way it builds charts resembles the progressive nature of speech. The `geom_`-style layers seem similar to how we would discuss a chart by speaking, and the way the `group` and `color` parameters are easy to speak about, beyond just what is on the x and y axis. 
 
-But its not *quite* a spoken grammar, either, but it is conceptually close enough that filling in the gap should be attainable quickly.
+But its not *quite* a spoken grammar, either, but it is conceptually close enough that filling in the gap should be attainable quickly. And we'll need to deal with some state, tracking which layer or part we're talking about for example.
 
 ## Speaking to `ggplot2`
 
 This proposal is for a way of interpreting a spoken speech grammar into the neccessary ggplot2 grammar elements to render an arbitrary set of data into a useful visualization.
 
+It would include, broadly,
+* The selection of a speech recognition engine to drive input
+* A defined grammar that is acceptable to the recognizer
+
+and a basic recognition loop:
+
+* A way to update the grammar to add column and row names, distinct values, etc...
+* The ability to translate the spoken grammar commands into the correct R/ggplot2 code
+* Rendering of the ggplot2 code into an image
+* Displaying that image to the user
 
 
-That leads to the natural question of, if its a grammar, why can't we speak  speak to it?
-
-This proposal is an attempt to interpret human speech into a progressivly generated and automatically rendered plot.
 
 
 
