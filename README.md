@@ -27,7 +27,73 @@ and a basic recognition loop:
 * Rendering of the ggplot2 code into an image
 * Displaying that image to the user
 
+and some other goals and considerations:
 
+* Avoid actually forking the ggplot or R code at all costs
+* For simplicity, focus on rendering one chart based on one data frame.
+* Prefer to generate human-readable code that uses the typical public interface of `geom_*`s and themes to further manipulation by hand easy
 
+#### A speech recognition engine
 
+HTML5 includes a speech recognition functionality that may work. There have been approaches to this that utilize the browser, like [this one](https://www.r-bloggers.com/talk-to-r/).
 
+#### An updatable grammar
+
+Something like [JSGF](https://www.w3.org/TR/2000/NOTE-jsgf-20000605/#16447) might work well for this
+
+### A method of translating the speech grammar into an abstraction of a chart
+
+The matched speech elements that come from the recognition engine should result in a cummulative series of commands to progressively create an abstract representation of the visualization. For instance:
+
+> Change x to Month
+
+would result in a series of commands:
+
+```
+NEW CHART
+NEW LAYER
+SET X TO Month
+SET Y TO Revenue
+```
+
+that could be translated into code to update an abstraction
+
+```
+chart = Chart()
+layer = chart.layers.new()
+layer.x = 'Months'
+layer.y = 'Revenue'
+```
+
+And then the `chart` object is used as an input to generate the relevant ggplot2 code.
+
+```
+ggplot() + geom_point(aes(x=Revenue, y=Month))
+```
+
+This process allows us to alter the chart progressivly, so if I wanted to change the x asix to Years, I could state the following
+
+> Replace Months with Years
+
+And based on the commands that we have given so far, we add:
+
+```
+NEW CHART
+NEW LAYER
+SET X TO Month
+SET Y TO Revenue
+SET X TO Years
+```
+and
+
+```
+chart = Chart()
+layer = chart.layers.new()
+layer.x = 'Month'
+layer.y = 'Revenue
+layer.x = 'Years'
+'```
+
+and
+
+```ggplot() + geom_point(aes(x=Revenue, y=Years))```
